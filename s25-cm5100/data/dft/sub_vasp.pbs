@@ -1,0 +1,54 @@
+#!/bin/bash
+#PBS -N CuSCOH
+#PBS -q normal
+#PBS -l select=1:ncpus=32:mem=120gb:mpiprocs=32
+#PBS -l walltime=24:00:00
+#PBS -P personal
+#PBS -J 1-89
+#PBS -j oe
+
+cd $PBS_O_WORKDIR
+NP=$(cat ${PBS_NODEFILE} | wc -l)
+echo "JOB INPUT(.in):" $PBS_O_WORKDIR: > TIME
+echo "Start Time:" `date` >> TIME
+date_start=`date "+%s"`
+################################################################
+################## load the environment ########################
+module swap craype-x86-rome craype-x86-milan
+module swap PrgEnv-cray PrgEnv-gnu
+module load cray-hdf5-parallel/1.12.1.1
+module swap craype-network-ofi craype-network-ucx
+module swap cray-mpich/8.1.15 cray-mpich-ucx/8.1.15
+module load intel
+module load gcc
+module load mkl
+
+################## load the conda #############################
+module load miniforge3/23.10
+conda activate cm5100
+
+################## set environment variables ###################
+export PYTHONPATH=${HOME}/s25-cm5100/data/dft/ase:$PYTHONPATH
+export VASP_COMMAND="mpirun -np ${NP} ${HOME}/s25-cm5100/data/dft/vasp_651_intel_mkl_std"
+export VASP_PP_PATH="${HOME}/s25-cm5100/data/dft/pseudopotential"
+
+################## execution command #########################
+user=`whoami`
+dir=$(date '+%Y%m%d_%H%M%S_%N')
+
+path=$(sed -n ${PBS_ARRAY_INDEX}p ${PBS_O_WORKDIR}/joblist.dat)
+echo $path >>job_run.dat
+cd $path
+python run_vasp.py init.vasp
+cd ${PBS_O_WORKDIR}
+
+#rsync -a  ${HOME}/scratch/tmp/${dir}/{CONTCAR,OUTCAR} ${PBS_O_WORKDIR}/${path}/
+
+#cd ${PBS_O_WORKDIR}
+#done
+##############################################################
+date_end=`date "+%s"`
+echo "END Time:" `date` >> TIME
+time_second=$[date_end-date_start]
+hour=3600.0
+echo "Runing Time(s):" $time_second "(s)">> TIME
