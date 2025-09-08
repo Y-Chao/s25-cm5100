@@ -4,8 +4,8 @@
 #PBS -l select=1:ncpus=32:mem=120gb:mpiprocs=32
 #PBS -l walltime=24:00:00
 #PBS -P personal
-#PBS -J 1-89
 #PBS -j oe
+#PBS -J 1-89
 
 cd $PBS_O_WORKDIR
 NP=$(cat ${PBS_NODEFILE} | wc -l)
@@ -28,7 +28,6 @@ module load miniforge3/23.10
 conda activate cm5100
 
 ################## set environment variables ###################
-export PYTHONPATH=${HOME}/s25-cm5100/data/dft/ase:$PYTHONPATH
 export VASP_COMMAND="mpirun -np ${NP} ${HOME}/s25-cm5100/data/dft/vasp_651_intel_mkl_std"
 export VASP_PP_PATH="${HOME}/s25-cm5100/data/dft/pseudopotential"
 
