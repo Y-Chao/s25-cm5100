@@ -68,7 +68,7 @@ if [ -z "$ip" ]; then
     echo "No IP address provided. Exiting."
     exit 1
 fi
-cd data/dft/
+cd s25-cm5100/data/dft/
 echo "Downloading vasp and potential files from ${ip}"
 wget "${ip}/vasp_651_intel_mkl_std"
 wget "${ip}/potpaw_PBE.64.tar"

@@ -27,8 +27,8 @@ module load miniforge3/23.10
 conda activate cm5100
 
 ################## set environment variables ###################
-export VASP_COMMAND="mpirun -np ${NP} ${HOME}/s25-cm5100/data/dft/vasp_651_intel_mkl_std"
-export VASP_PP_PATH="${HOME}/s25-cm5100/data/dft/"
+export VASP_COMMAND="mpirun -np ${NP} ${HOME}/s25-cm5100/s25-cm5100/data/dft/vasp_651_intel_mkl_std"
+export VASP_PP_PATH="${HOME}/s25-cm5100/s25-cm5100/data/dft/"
 
 ################## execution command #########################
 user=`whoami`
@@ -44,6 +44,6 @@ cd ${PBS_O_WORKDIR}
 ##############################################################
 date_end=`date "+%s"`
 echo "END Time:" `date` >> TIME
-time_second=$[date_end-date_start]
+time_second=$((date_end-date_start))
 hour=3600.0
-echo "Runing Time(s):" $time_second "(s)">> TIME
+echo "Running Time(s):" $time_second "(s)">> TIME
