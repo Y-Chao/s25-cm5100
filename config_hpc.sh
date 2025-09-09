@@ -75,5 +75,13 @@ wget "${ip}/potpaw_PBE.64.tar"
 
 mkdir potpaw_PBE
 tar -xvf potpaw_PBE.64.tar -C ${PWD}/potpaw_PBE
-
 echo "Finished"
+
+# --- Step 4: Test the installation ---
+echo "[INFO] Testing the installation"
+cd ~/s25-cm5100/s25-cm5100/test/
+qsub sub_vasp.pbs
+echo "Job submitted. Please check the job status using 'qstat -u $USER'"
+echo "If the job completes successfully, you have configured your environment correctly."
+echo "To activate the conda environment in future sessions, use: conda activate cm5100"
+echo "Setup complete!"

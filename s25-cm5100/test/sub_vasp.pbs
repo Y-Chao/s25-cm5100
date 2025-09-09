@@ -5,7 +5,6 @@
 #PBS -l walltime=24:00:00
 #PBS -P personal
 #PBS -j oe
-#PBS -J 1-89
 
 cd $PBS_O_WORKDIR
 NP=$(cat ${PBS_NODEFILE} | wc -l)
@@ -35,11 +34,7 @@ export VASP_PP_PATH="${HOME}/s25-cm5100/data/dft/"
 user=`whoami`
 dir=$(date '+%Y%m%d_%H%M%S_%N')
 
-path=$(sed -n ${PBS_ARRAY_INDEX}p ${PBS_O_WORKDIR}/joblist.dat)
-echo $path >>job_run.dat
-cd $path
-type=$(cat type.dat)
-python run_vasp.py ${type}
+python run_vasp.py
 cd ${PBS_O_WORKDIR}
 
 #rsync -a  ${HOME}/scratch/tmp/${dir}/{CONTCAR,OUTCAR} ${PBS_O_WORKDIR}/${path}/
