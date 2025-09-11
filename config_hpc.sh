@@ -29,11 +29,13 @@ if [ $server == "NSCC" ];then
         echo "Conda environment cm5100 does not exist. Creating..."
         conda create -n "cm5100" python=3.12 -y
         conda activate cm5100
+        pip install ase
         pip install pymatgen
         pip install mace
     else
         echo "Conda environment cm5100 already exists. Activating..."
         conda activate cm5100
+        pip install ase
     fi
 elif [ $server == "VANDA" ];then
     module load Miniconda3/24.7.1-0
@@ -44,11 +46,13 @@ elif [ $server == "VANDA" ];then
         echo "Conda environment cm5100 does not exist. Creating..."
         conda create -n "cm5100" python=3.12 -y
         conda activate cm5100
+        pip install ase
         pip install pymatgen
         pip install mace
     else
         echo "Conda environment cm5100 already exists. Activating..."
         conda activate cm5100
+        pip install ase
     fi
 else
     echo "Wrong server"
