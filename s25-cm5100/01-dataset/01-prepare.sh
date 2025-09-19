@@ -7,8 +7,8 @@
 # ==========================================
 
 echo "[INFO] Update your s25-cm5100 repository"
-if [ ! -d "$HOME/s25-cm5100/01-dataset" ]; then
-    echo "[ERROR] Directory $HOME/s25-cm5100/01-dataset does not exist. Please clone the repository first."
+if [ ! -d "$HOME/s25-cm5100/s25-cm5100/01-dataset" ]; then
+    echo "[ERROR] Directory $HOME/s25-cm5100/s25-cm5100/01-dataset does not exist. Please clone the repository first."
     exit 1
 fi
 #git fetch origin

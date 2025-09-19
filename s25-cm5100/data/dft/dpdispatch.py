@@ -208,7 +208,10 @@ def batch_sub():
     list_value = [[l[0], l[-1]] for l in all_list]
     for i, l in enumerate(list_value):
         print(f"Task {i+1}: {l[0]} - {l[1]}")
-
+        if i == 0:
+            monitor_jobs("CuSCOH", interval=600)
+            submit_job_template("sub_vasp.pbs")
+            continue
         os.system(f"sed -i \"8s/{list_value[i-1][0]}/{l[0]}/g\" sub_vasp.pbs")
         os.system(f"sed -i \"8s/{list_value[i-1][1]}/{l[1]}/g\" sub_vasp.pbs")
 
