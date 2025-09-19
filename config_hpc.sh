@@ -36,11 +36,6 @@ if [ $server == "NSCC" ];then
         echo "Conda environment cm5100 already exists. Activating..."
         conda activate cm5100
         pip install ase
-<<<<<<< HEAD
-=======
-        pip install pymatgen
-        pip install mace
->>>>>>> 2f316cc (01-dataset)
     fi
 elif [ $server == "VANDA" ];then
     module load Miniconda3/24.7.1-0
@@ -58,11 +53,8 @@ elif [ $server == "VANDA" ];then
         echo "Conda environment cm5100 already exists. Activating..."
         conda activate cm5100
         pip install ase
-<<<<<<< HEAD
-=======
         pip install pymatgen
         pip install mace
->>>>>>> 2f316cc (01-dataset)
     fi
 else
     echo "Wrong server"

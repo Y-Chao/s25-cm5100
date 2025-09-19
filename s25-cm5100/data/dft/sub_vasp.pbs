@@ -28,7 +28,7 @@ module load miniforge3/23.10
 conda activate cm5100
 
 ################## set environment variables ###################
-export VASP_COMMAND="mpirun -np ${NP} ${HOME}/s25-cm5100/data/dft/vasp_651_intel_mkl_std"
+export VASP_COMMAND="mpirun -np ${NP} ${HOME}/s25-cm5100/s25-cm5100/data/dft/vasp_651_intel_mkl_std"
 export VASP_PP_PATH="${HOME}/s25-cm5100/data/dft/"
 
 ################## execution command #########################

@@ -6,9 +6,13 @@
 # Version 1.0
 # ==========================================
 
-echo "[INFO] Update your sm25-cm5100 repository"
-git fetch origin
-git reset --hard origin/main
+echo "[INFO] Update your s25-cm5100 repository"
+if [ ! -d "$HOME/s25-cm5100/01-dataset" ]; then
+    echo "[ERROR] Directory $HOME/s25-cm5100/01-dataset does not exist. Please clone the repository first."
+    exit 1
+fi
+#git fetch origin
+#git reset --hard origin/main
 
 echo "[INFO] Download your dataset to your scratch folder"
 cd ~/scratch
