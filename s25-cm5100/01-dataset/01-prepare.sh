@@ -18,22 +18,24 @@ echo "[INFO] Download your dataset to your scratch folder"
 cd ~/scratch
 read -p "Please input IP address: " ip
 if [ -z "$ip" ]; then
-    echo "No IP address provided. Exiting."
-    exit 1
+    echo "No IP address provided. Skip."
+    #exit 1
 fi
 read -p "Please input your file name: " file
 if [ -z "$file" ]; then
-    echo "No file name provided. Exiting."
-    exit 1
+    echo "No file name provided. Skip."
+    #exit 1
 fi
 wget "${ip}/${file}" -O dataset.xyz
 
 echo "[INFO] Preparing your dataset"
+module load miniforge3
+conda activate cm5100
 python ~/s25-cm5100/s25-cm5100/data/dft/uncompress_xyz.py dataset.xyz
 
 echo "[INFO] Submitting your DFT jobs"
 cp ~/s25-cm5100/s25-cm5100/data/dft/sub_vasp.pbs .
-nohup python ~/s25-cm5100/s25-cm5100/data/dft/dpdispatch.py q >log 2>&1 &
+nohup python ~/s25-cm5100/s25-cm5100/data/dft/dpdispatch.py q 1 >log 2>&1 &
 echo "[INFO] Your jobs has been submited!"
 echo "[INFO] Use 'qstat -t' to check the job status."
 echo "[INFO] Use 'tail log' to check the log file."

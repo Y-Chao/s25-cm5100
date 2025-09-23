@@ -178,12 +178,28 @@ def monitor_jobs(jobname: str, interval: int = 300):
             time.sleep(interval)
     print("All jobs completed. Proceeding to the next step.")
     
-def submit_job_template(template: str):
+def submit_job_template(template: str, restart: int = 3):
     """
     Submit a job using a template file.
     """
-    subprocess.run(["qsub", template], check=True)
-    print(f"Job submitted using template: {template}")
+    for attempt in range(restart):
+        try:
+            result = subprocess.run(["qsub", template],
+                                    check=True,
+                                    capture_output=True,
+                                    text=True)
+            print(f"Job submitted using template: {template}", result.stdout)
+            break  # Exit after successful submission
+        except subprocess.CalledProcessError as e:
+            print("Error submitting job:", e)
+            print("Return code:", e.returncode)
+            print("Output:", e.output)
+            print("Error message:", e.stderr)
+            if attempt < restart:
+                print(f"Retrying job submission after 10 minutes...")
+                time.sleep(600)  # Wait for 10 minutes before retrying
+            else:
+                raise RuntimeError(f"Failed to submit job after {restart} attempts.")
 
 def shorten_path(path: str):
     home = os.path.expanduser("~")
@@ -196,7 +212,7 @@ def format_print(jobinfo: list, headers: list):
     for row in jobinfo:
         print("    ".join(str(val).center(col_widths[i]) for i, val in enumerate(row)))
 
-def batch_sub():
+def batch_sub(num=1):
     """
     Main function to execute the dispatch module.
     This function can be extended to include command-line arguments or other functionalities.
@@ -204,7 +220,7 @@ def batch_sub():
     print("Dispatch module is running...")
     
     # NSCC can run 99 tasks at the same time
-    all_list = split_tasks(list(range(1, 5000)), 90)
+    all_list = split_tasks(list(range(num, 5000)), 90)
     list_value = [[l[0], l[-1]] for l in all_list]
     for i, l in enumerate(list_value):
         print(f"Task {i+1}: {l[0]} - {l[1]}")
@@ -225,8 +241,12 @@ def main():
         print("Dispatch module is running...")
         output_jobs()
     else:
+        if len(sys.argv) != 3:
+            print("Usage: dpdispatch.py [q] [num]")
+            sys.exit(1)
         if sys.argv[1] == "q":
-            batch_sub()
+            num = int(sys.argv[2])
+            batch_sub(num)
 
 if __name__ == '__main__':
    main() 
