@@ -1,3 +1,7 @@
 s25-cm5100/data/dft/ase/
 s25-cm5100/data/dft/vasp_651_intel_mkl_std
 s25-cm5100/data/structures/
+
+s25-cm5100/data/dft/newout*.json
+s25-cm5100/02-ml/
+s25-cm5100/data/ml
