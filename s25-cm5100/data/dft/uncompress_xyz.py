@@ -1,9 +1,10 @@
 import os
 import sys
 from glob import glob
-from tqdm import tqdm
+
 import numpy as np
 from ase.io import read, write
+from tqdm import tqdm
 
 atoms = read(sys.argv[1], index=":")
 
@@ -20,7 +21,7 @@ for i, atom in tqdm(enumerate(atoms), total=len(atoms), desc="Distributing struc
     if np.all(cell > 16):
         with open(f"{directory}/type.dat", "w") as f:
             f.write("cluster")
-    elif np.sum(cell>16) == 1:
+    elif np.sum(cell > 16) == 1:
         with open(f"{directory}/type.dat", "w") as f:
             f.write("surface")
     else:
@@ -32,4 +33,3 @@ jobs_info = [f"{i:05d}" for i in range(len(all_jobs))]
 jobs_info = "\n".join(jobs_info)
 with open("joblist.dat", "w") as fd:
     fd.write(jobs_info)
-    

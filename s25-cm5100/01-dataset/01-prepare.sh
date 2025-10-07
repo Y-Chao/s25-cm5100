@@ -31,6 +31,7 @@ wget "${ip}/${file}" -O dataset.xyz
 echo "[INFO] Preparing your dataset"
 module load miniforge3
 conda activate cm5100
+
 python ~/s25-cm5100/s25-cm5100/data/dft/uncompress_xyz.py dataset.xyz
 
 echo "[INFO] Submitting your DFT jobs"

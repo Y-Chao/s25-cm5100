@@ -39,7 +39,8 @@ path=$(sed -n ${PBS_ARRAY_INDEX}p ${PBS_O_WORKDIR}/joblist.dat)
 echo $path >>job_run.dat
 cd $path
 type=$(cat type.dat)
-python ~/s25-cm5100/s25-cm5100/data/dft/run_vasp.py ${type}
+cp ~/s25-cm5100/s25-cm5100/data/dft/run_vasp.py .
+python run_vasp.py ${type}
 cd ${PBS_O_WORKDIR}
 
 #rsync -a  ${HOME}/scratch/tmp/${dir}/{CONTCAR,OUTCAR} ${PBS_O_WORKDIR}/${path}/
